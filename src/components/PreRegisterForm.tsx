@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MessageCircle, CheckCircle2, Loader2, Share2, ShieldCheck } from 'lucide-react';
 import { FormData, ApiResponse } from '../types';
@@ -9,11 +9,21 @@ const PreRegisterForm: React.FC = () => {
   const [success, setSuccess] = useState(false);
   const [linkConvite, setLinkConvite] = useState('');
 
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
+  const refFromQuery = useMemo(
+    () => new URLSearchParams(window.location.search).get('ref') || '',
+    []
+  );
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>({
     defaultValues: {
       urlOrigem: window.location.href,
-      codigoConviteIndicador: new URLSearchParams(window.location.search).get('ref') || ''
-    }
+      codigoConviteIndicador: refFromQuery,
+    },
   });
 
   const formatPhone = (value: string) => {
@@ -31,28 +41,41 @@ const PreRegisterForm: React.FC = () => {
     setLoading(true);
     try {
       const cleanPhone = data.telefone.replace(/\D/g, '');
-      const firstName = data.nome.split(' ')[0];
-      const n8nUrl = `https://n8n.autevia.com.br/webhook/flow-start?number=55${cleanPhone}&name=${encodeURIComponent(firstName)}`;
-      const iaFitUrl = 'https://iafit.autevia.com.br/my-ia-fitness/api/usuarios/pre-cadastro';
+      const payload = {
+        nome: data.nome.trim(),
+        telefone: cleanPhone,
+        email: data.email?.trim() || undefined,
+        codigoConviteIndicador: data.codigoConviteIndicador || undefined,
+        urlOrigem: data.urlOrigem,
+      };
 
-      await Promise.allSettled([
-        fetch(n8nUrl, { method: 'POST' }),
-        fetch(iaFitUrl, {
+      const response = await fetch(
+        'https://iafit.autevia.com.br/my-ia-fitness/api/usuarios/pre-cadastro',
+        {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...data,
-            telefone: cleanPhone,
-            nome: firstName
-          }),
-        }).then(res => res.json().then(result => {
-          if (result.linkConvite) setLinkConvite(result.linkConvite);
-        }))
-      ]);
-      
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        const errorBody = await response.json().catch(() => ({}));
+        throw new Error(errorBody?.message || 'Não foi possível concluir seu pré-cadastro.');
+      }
+
+      const result: ApiResponse = await response.json();
+
+      if (result.linkConvite) {
+        setLinkConvite(result.linkConvite);
+      }
       setSuccess(true);
     } catch (error) {
       console.error(error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Tivemos um problema. Tente novamente em instantes.';
+      alert(message);
     } finally {
       setLoading(false);
     }
@@ -96,6 +119,16 @@ const PreRegisterForm: React.FC = () => {
                 </div>
 
                 <div className="space-y-2.5">
+                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Email (opcional)</label>
+                  <input
+                    type="email"
+                    placeholder="voce@email.com"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 focus:ring-4 focus:ring-whatsapp/10 focus:border-whatsapp/30 focus:outline-none transition-all placeholder:text-gray-600 text-white"
+                    {...register('email')}
+                  />
+                </div>
+
+                <div className="space-y-2.5">
                   <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">WhatsApp</label>
                   <input
                     type="tel"
@@ -105,10 +138,13 @@ const PreRegisterForm: React.FC = () => {
                       required: 'Precisamos do seu número',
                       pattern: { value: /^\(\d{2}\) \d{5}-\d{4}$/, message: 'Formato inválido' }
                     })}
-                    onChange={(e) => setValue('telefone', formatPhone(e.target.value))}
+                    onChange={(e) => setValue('telefone', formatPhone(e.target.value), { shouldValidate: true })}
                   />
                   {errors.telefone && <p className="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{errors.telefone.message}</p>}
                 </div>
+
+                <input type="hidden" {...register('urlOrigem')} />
+                <input type="hidden" {...register('codigoConviteIndicador')} />
 
                 <button
                   type="submit"
