@@ -1,0 +1,7 @@
+{
+  "name": "Followback - Landing Page",
+  "description": "Uma landing page moderna e segura para descobrir quem não te segue de volta no Instagram sem precisar de login.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
