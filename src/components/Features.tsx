@@ -37,8 +37,11 @@ const Features: React.FC = () => {
   ];
 
   return (
-    <section id="recursos" className="py-32 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="recursos"
+      className="py-32 px-6 bg-gradient-to-b from-[#0c1816] via-[#0d161b] to-[#0f1420]"
+    >
+      <div className="max-w-[1400px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {features.map((f, i) => (
             <div key={i} className="group p-10 rounded-[2.5rem] glass hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500">

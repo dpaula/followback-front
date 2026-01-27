@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'glass py-3 border-b border-white/5 shadow-2xl' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-[1500px] mx-auto px-6 lg:px-12">
         <div className="flex justify-between items-center h-12">
           {/* Logo */}
           <div className="flex items-center gap-2.5 group cursor-pointer">

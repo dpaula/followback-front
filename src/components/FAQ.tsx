@@ -4,7 +4,7 @@ import { ChevronDown, HelpCircle } from 'lucide-react';
 import { FAQItem } from '../types';
 
 const FAQ: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openSet, setOpenSet] = useState<Set<number>>(() => new Set([0, 1]));
 
   const faqs: FAQItem[] = [
     {
@@ -29,8 +29,20 @@ const FAQ: React.FC = () => {
     }
   ];
 
+  const toggle = (i: number) => {
+    setOpenSet((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
   return (
-    <section id="faq" className="py-32 px-6">
+    <section
+      id="faq"
+      className="py-32 px-6 bg-gradient-to-b from-[#0f1420] via-[#0e1218] to-[#0d1015]"
+    >
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-20">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/5 text-gray-400 mb-8 border border-white/5 shadow-inner">
@@ -42,17 +54,17 @@ const FAQ: React.FC = () => {
 
         <div className="space-y-5">
           {faqs.map((faq, i) => (
-            <div key={i} className={`rounded-3xl border transition-all duration-500 overflow-hidden ${openIndex === i ? 'bg-white/[0.04] border-white/20' : 'bg-transparent border-white/5 hover:border-white/10'}`}>
+            <div key={i} className={`rounded-3xl border transition-all duration-500 overflow-hidden ${openSet.has(i) ? 'bg-white/[0.04] border-white/20' : 'bg-transparent border-white/5 hover:border-white/10'}`}>
               <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                onClick={() => toggle(i)}
                 className="w-full px-8 py-7 flex items-center justify-between text-left"
               >
-                <span className={`font-bold transition-colors ${openIndex === i ? 'text-white' : 'text-gray-400'}`}>{faq.question}</span>
-                <div className={`transition-transform duration-500 ${openIndex === i ? 'rotate-180' : ''}`}>
-                  <ChevronDown className={`w-5 h-5 ${openIndex === i ? 'text-whatsapp' : 'text-gray-600'}`} />
+                <span className={`font-bold transition-colors ${openSet.has(i) ? 'text-white' : 'text-gray-400'}`}>{faq.question}</span>
+                <div className={`transition-transform duration-500 ${openSet.has(i) ? 'rotate-180' : ''}`}>
+                  <ChevronDown className={`w-5 h-5 ${openSet.has(i) ? 'text-whatsapp' : 'text-gray-600'}`} />
                 </div>
               </button>
-              {openIndex === i && (
+              {openSet.has(i) && (
                 <div className="px-8 pb-8 text-gray-400 text-sm leading-relaxed font-medium animate-fade-in">
                   {faq.answer}
                 </div>

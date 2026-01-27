@@ -1,13 +1,14 @@
 
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { MessageCircle, CheckCircle2, Loader2, Share2, ShieldCheck } from 'lucide-react';
+import { MessageCircle, CheckCircle2, Loader2, Share2, ShieldCheck, AlertTriangle, Phone } from 'lucide-react';
 import { FormData, ApiResponse } from '../types';
 
 const PreRegisterForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [linkConvite, setLinkConvite] = useState('');
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'warning' | 'error' | 'info'; message: string } | null>(null);
 
   const refFromQuery = useMemo(
     () => new URLSearchParams(window.location.search).get('ref') || '',
@@ -39,28 +40,36 @@ const PreRegisterForm: React.FC = () => {
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
+    setFeedback(null);
     try {
       const cleanPhone = data.telefone.replace(/\D/g, '');
       const payload = {
         nome: data.nome.trim(),
         telefone: cleanPhone,
-        email: data.email?.trim() || undefined,
         codigoConviteIndicador: data.codigoConviteIndicador || undefined,
         urlOrigem: data.urlOrigem,
       };
 
-      const response = await fetch(
-        'https://iafit.autevia.com.br/my-ia-fitness/api/usuarios/pre-cadastro',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        }
-      );
+      const phoneE164 = cleanPhone.startsWith('55') ? cleanPhone : `55${cleanPhone}`;
+      const webhook = new URL('https://n8n.autevia.com.br/webhook/flow-start');
+      webhook.searchParams.set('number', phoneE164);
+      webhook.searchParams.set('name', payload.nome);
+      if (payload.codigoConviteIndicador) webhook.searchParams.set('ref', payload.codigoConviteIndicador);
+      webhook.searchParams.set('url', payload.urlOrigem);
+
+      const response = await fetch(webhook.toString(), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => ({}));
-        throw new Error(errorBody?.message || 'Não foi possível concluir seu pré-cadastro.');
+        const err = new Error(errorBody?.message || 'Não foi possível concluir seu pré-cadastro.') as Error & {
+          status?: number;
+        };
+        err.status = response.status;
+        throw err;
       }
 
       const result: ApiResponse = await response.json();
@@ -68,6 +77,10 @@ const PreRegisterForm: React.FC = () => {
       if (result.linkConvite) {
         setLinkConvite(result.linkConvite);
       }
+      setFeedback({
+        type: 'success',
+        message: 'Acesso liberado! Agora é só abrir a conversa no WhatsApp.',
+      });
       setSuccess(true);
     } catch (error) {
       console.error(error);
@@ -75,7 +88,26 @@ const PreRegisterForm: React.FC = () => {
         error instanceof Error
           ? error.message
           : 'Tivemos um problema. Tente novamente em instantes.';
-      alert(message);
+
+      const status = (error as any)?.status as number | undefined;
+      const normalized = message.toLowerCase();
+      const isDuplicate =
+        status === 409 ||
+        normalized.includes('cadastr') ||
+        normalized.includes('já está') ||
+        normalized.includes('existe');
+
+      if (isDuplicate) {
+        setFeedback({
+          type: 'warning',
+          message: 'Esse número já está cadastrado. Reenviei o link pra você no WhatsApp.',
+        });
+      } else {
+        setFeedback({
+          type: 'error',
+          message,
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -88,7 +120,10 @@ const PreRegisterForm: React.FC = () => {
   };
 
   return (
-    <section id="comecar" className="py-24 md:py-32 px-6 flex flex-col items-center relative overflow-hidden">
+    <section
+      id="comecar"
+      className="py-20 md:py-32 px-5 md:px-6 flex flex-col items-center relative overflow-hidden bg-gradient-to-b from-[#0c1321] via-[#0c151c] to-[#0c1816]"
+    >
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] h-[500px] bg-whatsapp/5 rounded-full blur-[120px] -z-10"></div>
 
@@ -98,48 +133,66 @@ const PreRegisterForm: React.FC = () => {
       </div>
 
       <div className="w-full max-w-lg relative">
-        <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl relative">
+        <div className="relative overflow-hidden rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] via-white/[0.025] to-white/[0.035] backdrop-blur-xl">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
           {!success ? (
             <>
-              <div className="flex items-center gap-3 text-whatsapp font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mb-8 md:mb-10">
+              <div className="flex items-center gap-3 text-whatsapp font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mb-6 md:mb-8 px-6 pt-6 md:px-8 md:pt-8">
                 <ShieldCheck className="w-5 h-5" />
                 Seus dados estão protegidos
               </div>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {feedback && (
+                <div
+                  className={`mx-6 md:mx-8 mb-6 rounded-2xl px-4 py-3 flex items-start gap-3 text-sm animate-fade-in ${
+                    feedback.type === 'warning'
+                      ? 'bg-amber-400/10 border border-amber-400/30 text-amber-100'
+                      : feedback.type === 'error'
+                      ? 'bg-red-500/10 border border-red-500/30 text-red-100'
+                      : 'bg-whatsapp/10 border border-whatsapp/30 text-white'
+                  }`}
+                >
+                  {feedback.type === 'warning' ? (
+                    <AlertTriangle className="w-4 h-4 mt-0.5" />
+                  ) : feedback.type === 'error' ? (
+                    <AlertTriangle className="w-4 h-4 mt-0.5" />
+                  ) : (
+                    <CheckCircle2 className="w-4 h-4 mt-0.5" />
+                  )}
+                  <span className="leading-relaxed">{feedback.message}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 px-6 pb-14 md:px-8 md:pb-12">
                 <div className="space-y-2.5">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Primeiro Nome</label>
+                  <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Primeiro Nome</label>
                   <input
                     type="text"
                     placeholder="Seu nome"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 focus:ring-4 focus:ring-whatsapp/10 focus:border-whatsapp/30 focus:outline-none transition-all placeholder:text-gray-600 text-white"
+                    className="w-full bg-white/[0.02] border border-white/10 rounded-2xl px-5 py-4 focus:ring-4 focus:ring-whatsapp/15 focus:border-whatsapp/40 focus:outline-none transition-all placeholder:text-gray-600 text-white shadow-inner shadow-black/10"
                     {...register('nome', { required: 'Qual o seu nome?' })}
                   />
                   {errors.nome && <p className="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{errors.nome.message}</p>}
                 </div>
 
                 <div className="space-y-2.5">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Email (opcional)</label>
-                  <input
-                    type="email"
-                    placeholder="voce@email.com"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 focus:ring-4 focus:ring-whatsapp/10 focus:border-whatsapp/30 focus:outline-none transition-all placeholder:text-gray-600 text-white"
-                    {...register('email')}
-                  />
-                </div>
-
-                <div className="space-y-2.5">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">WhatsApp</label>
-                  <input
-                    type="tel"
-                    placeholder="(00) 00000-0000"
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 focus:ring-4 focus:ring-whatsapp/10 focus:border-whatsapp/30 focus:outline-none transition-all placeholder:text-gray-600 text-white"
-                    {...register('telefone', { 
-                      required: 'Precisamos do seu número',
-                      pattern: { value: /^\(\d{2}\) \d{5}-\d{4}$/, message: 'Formato inválido' }
-                    })}
-                    onChange={(e) => setValue('telefone', formatPhone(e.target.value), { shouldValidate: true })}
-                  />
+                  <label className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">WhatsApp</label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                      <Phone className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="tel"
+                      placeholder="(00) 00000-0000"
+                      className="w-full bg-white/[0.02] border border-white/10 rounded-2xl pl-10 pr-5 py-4 focus:ring-4 focus:ring-whatsapp/15 focus:border-whatsapp/40 focus:outline-none transition-all placeholder:text-gray-600 text-white shadow-inner shadow-black/10"
+                      {...register('telefone', { 
+                        required: 'Precisamos do seu número',
+                        pattern: { value: /^\(\d{2}\) \d{5}-\d{4}$/, message: 'Formato inválido' }
+                      })}
+                      onChange={(e) => setValue('telefone', formatPhone(e.target.value), { shouldValidate: true })}
+                    />
+                  </div>
                   {errors.telefone && <p className="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{errors.telefone.message}</p>}
                 </div>
 
@@ -149,7 +202,7 @@ const PreRegisterForm: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-white hover:bg-gray-100 text-black font-black py-4.5 md:py-5 rounded-2xl flex items-center justify-center gap-3 transition-all transform active:scale-95 disabled:opacity-50 mt-4 text-base md:text-lg shadow-xl shadow-white/5"
+                  className="w-full bg-whatsapp hover:bg-[#20bd5a] text-white font-black py-4.5 md:py-5 rounded-2xl flex items-center justify-center gap-3 transition-all transform active:scale-95 disabled:opacity-60 mt-4 text-base md:text-lg shadow-[0_12px_30px_rgba(37,211,102,0.25)] sticky bottom-0 md:static"
                 >
                   {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <>Receber Acesso <MessageCircle className="w-5 h-5" /></>}
                 </button>
