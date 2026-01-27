@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Activity } from 'lucide-react';
+import { Menu, X, Instagram } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,46 +19,35 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'glass py-3 border-b border-white/5 shadow-2xl'
-          : 'bg-transparent py-6'
-      }`}
-    >
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="flex justify-between items-center h-14">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'glass py-3 border-b border-white/5 shadow-2xl' : 'bg-transparent py-6'}`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex justify-between items-center h-12">
           {/* Logo */}
-          <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
-              <Activity className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-2.5 group cursor-pointer">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 flex items-center justify-center shadow-lg shadow-pink-500/20 group-hover:scale-105 transition-transform duration-300">
+              <Instagram className="w-5 h-5 text-white" />
             </div>
-            <div className="flex flex-col leading-none">
-              <span className="text-lg font-extrabold tracking-tight text-white group-hover:opacity-90 transition-opacity">
-                AI Fit
-              </span>
-              <span className="text-[10px] text-emerald-100/80 uppercase tracking-[0.28em] hidden sm:block">
-                Nutri no WhatsApp
-              </span>
-            </div>
+            <span className="text-xl font-extrabold tracking-tight text-white group-hover:opacity-80 transition-opacity">
+              Followback
+            </span>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-semibold text-gray-300 hover:text-white transition-colors tracking-wide"
+                className="text-sm font-medium text-gray-400 hover:text-white transition-colors tracking-wide"
               >
                 {link.name}
               </a>
             ))}
             <a
               href="#comecar"
-              className="px-5 py-2.5 rounded-xl border border-emerald-500/60 bg-emerald-500/10 text-sm font-bold text-emerald-100 shadow-lg shadow-emerald-500/15 hover:-translate-y-[2px] transition-all active:scale-[0.98]"
+              className="px-6 py-2.5 rounded-full bg-white text-black text-sm font-bold hover:bg-gray-100 transition-all transform active:scale-95 shadow-xl shadow-white/5"
             >
-              Acesso Antecipado
+              Começar agora
             </a>
           </nav>
 
@@ -66,7 +55,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-gray-300 hover:text-white transition-colors"
+              className="p-2 text-gray-400 hover:text-white transition-colors"
             >
               {isOpen ? <X /> : <Menu />}
             </button>
@@ -83,7 +72,7 @@ const Navbar: React.FC = () => {
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className="text-lg font-bold text-gray-200 hover:text-white"
+                className="text-xl font-bold text-gray-300 hover:text-white"
               >
                 {link.name}
               </a>
@@ -91,9 +80,9 @@ const Navbar: React.FC = () => {
             <a
               href="#comecar"
               onClick={() => setIsOpen(false)}
-              className="w-full py-4 text-center font-extrabold bg-emerald-500 text-black rounded-2xl shadow-lg shadow-emerald-500/25"
+              className="w-full py-4 text-center font-extrabold bg-white text-black rounded-2xl shadow-lg"
             >
-              Acesso Antecipado
+              Começar agora
             </a>
           </div>
         </div>

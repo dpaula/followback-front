@@ -8,24 +8,24 @@ const FAQ: React.FC = () => {
 
   const faqs: FAQItem[] = [
     {
-      question: "Preciso instalar algum app novo?",
-      answer: "Não. Toda a conversa, registros e resumos acontecem dentro do seu WhatsApp. Nada de cadastros ou logins extras."
+      question: "Precisa logar no Instagram?",
+      answer: "Absolutamente não. Nós nunca pedimos sua senha. O processo é feito através da exportação oficial de dados do Meta, garantindo 100% de segurança."
     },
     {
-      question: "Ela entende medidas do dia a dia?",
-      answer: "Sim! Pode falar “um prato de arroz”, “duas conchas de feijão”, “um filé de frango” que a Márcia AI interpreta e converte para macros."
+      question: "É realmente seguro?",
+      answer: "Sim, é o método mais seguro do mercado. Como não interagimos diretamente com a API do Instagram usando seu login, não há risco de bloqueio ou banimento."
     },
     {
-      question: "Quem vê meus dados?",
-      answer: "Só você. As informações são processadas temporariamente para gerar o saldo de macros e não são armazenadas para uso posterior."
+      question: "O que acontece com meu arquivo ZIP?",
+      answer: "O arquivo é processado na memória temporária do servidor apenas para gerar o relatório e é deletado automaticamente em seguida. Não guardamos nenhum dado."
     },
     {
-      question: "Funciona sem nutricionista?",
-      answer: "Sim, o AI Fit guia seu dia a dia. Se você tiver nutri, pode compartilhar o resumo semanal para acompanhamento."
+      question: "Funciona para qualquer tipo de conta?",
+      answer: "Sim! Pessoal, profissional, criador de conteúdo... qualquer conta que permita a exportação de dados pode usar o Followback."
     },
     {
-      question: "E se eu não puder falar por áudio?",
-      answer: "Pode digitar. O fluxo por texto funciona igual e a IA responde com os macros do mesmo jeito."
+      question: "O serviço é gratuito?",
+      answer: "Oferecemos uma análise básica gratuita. Para relatórios avançados e funcionalidades extras, consulte nossas opções direto no WhatsApp."
     }
   ];
 

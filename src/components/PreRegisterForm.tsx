@@ -83,29 +83,22 @@ const PreRegisterForm: React.FC = () => {
 
   const shareViaWhatsApp = () => {
     if (!linkConvite) return;
-    const text = `Olha que massa: AI Fit registra suas refeições e macros direto no WhatsApp. Bora juntos? ${linkConvite}`;
+    const text = `Olha que massa esse app para ver quem não te segue no Insta: ${linkConvite}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
-    <section id="comecar" className="py-24 md:py-32 px-4 sm:px-6 flex flex-col items-center relative overflow-hidden">
+    <section id="comecar" className="py-24 md:py-32 px-6 flex flex-col items-center relative overflow-hidden">
       {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[520px] h-[520px] bg-emerald-500/10 rounded-full blur-[120px] -z-10"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] h-[500px] bg-whatsapp/5 rounded-full blur-[120px] -z-10"></div>
 
       <div className="max-w-2xl text-center mb-12 md:mb-16 relative">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] uppercase tracking-[0.25em] font-bold text-gray-300 mb-4">
-          Lista de espera
-        </div>
-        <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight italic">
-          Garanta seu acesso
-        </h2>
-        <p className="text-gray-400 text-base md:text-lg font-medium">
-          Preencha abaixo para entrar no próximo grupo liberado. Você receberá as instruções direto no WhatsApp.
-        </p>
+        <h2 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight italic">Tudo Pronto?</h2>
+        <p className="text-gray-400 text-base md:text-lg font-medium">Preencha abaixo para liberar o acesso da Marcia no seu WhatsApp.</p>
       </div>
 
       <div className="w-full max-w-lg relative">
-        <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl relative border border-white/5">
+        <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] shadow-2xl relative">
           {!success ? (
             <>
               <div className="flex items-center gap-3 text-whatsapp font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mb-8 md:mb-10">
@@ -156,7 +149,7 @@ const PreRegisterForm: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-whatsapp hover:bg-[#20bd5a] text-black font-black py-4.5 md:py-5 rounded-2xl flex items-center justify-center gap-3 transition-all transform active:scale-95 disabled:opacity-50 mt-4 text-base md:text-lg shadow-xl shadow-emerald-500/20"
+                  className="w-full bg-white hover:bg-gray-100 text-black font-black py-4.5 md:py-5 rounded-2xl flex items-center justify-center gap-3 transition-all transform active:scale-95 disabled:opacity-50 mt-4 text-base md:text-lg shadow-xl shadow-white/5"
                 >
                   {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <>Receber Acesso <MessageCircle className="w-5 h-5" /></>}
                 </button>
@@ -172,7 +165,7 @@ const PreRegisterForm: React.FC = () => {
                 <CheckCircle2 className="w-10 h-10 text-whatsapp" />
               </div>
               <h2 className="text-2xl md:text-3xl font-black text-white mb-4">Sucesso Total!</h2>
-              <p className="text-gray-400 mb-10 leading-relaxed font-medium">As instruções acabaram de chegar. Abra seu WhatsApp e fale com a Márcia AI para registrar sua próxima refeição.</p>
+              <p className="text-gray-400 mb-10 leading-relaxed font-medium">As instruções acabaram de chegar. Abra seu WhatsApp e envie o seu arquivo ZIP para começar a análise.</p>
               
               {linkConvite && (
                 <div className="space-y-6">
