@@ -1,63 +1,60 @@
 
 import React from 'react';
-import { Smartphone, Download, Send } from 'lucide-react';
+import { Mic, Sparkles, BarChart3 } from 'lucide-react';
 
 const HowItWorks: React.FC = () => {
+  const steps = [
+    {
+      icon: <Mic className="w-6 h-6 text-emerald-300" />,
+      title: 'Grave um áudio',
+      desc: 'Conte para a Márcia AI o que você comeu. Pode ser falando ou enviando uma lista rápida.',
+    },
+    {
+      icon: <Sparkles className="w-6 h-6 text-emerald-300" />,
+      title: 'Ela entende e registra',
+      desc: 'A IA transforma o áudio em refeição, já calcula calorias e macros e valida com você.',
+    },
+    {
+      icon: <BarChart3 className="w-6 h-6 text-emerald-300" />,
+      title: 'Macros em segundos',
+      desc: 'Receba o saldo diário e sua evolução semanal direto no WhatsApp, sem instalar apps.',
+    },
+  ];
+
   return (
-    <section id="como-funciona" className="py-24 px-6 relative">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">Como funciona?</h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto font-medium">Um processo transparente e privado, do início ao fim.</p>
+    <section id="como-funciona" className="py-20 sm:py-24 px-4 sm:px-6 relative">
+      <div className="absolute inset-x-0 top-10 h-40 bg-gradient-to-b from-emerald-500/5 to-transparent pointer-events-none"></div>
+      <div className="max-w-screen-xl mx-auto">
+        <div className="text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] uppercase tracking-[0.25em] font-bold text-gray-300">
+            Passo a passo
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+            Como funciona o AI Fit?
+          </h2>
+          <p className="text-gray-400 text-base sm:text-lg max-w-3xl mx-auto">
+            Simplificamos a nutrição eliminando fricção. Fale por voz, receba os números e siga o plano sem abrir outro app.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
-          {/* Step 1 */}
-          <div className="glass p-8 rounded-[2.5rem] relative group hover:bg-white/[0.05] transition-all duration-500">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 flex items-center justify-center font-black text-white text-2xl mb-8 shadow-xl shadow-purple-600/20 group-hover:scale-110 transition-transform">1</div>
-            <h3 className="text-2xl font-bold text-white mb-4">Exportar dados</h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-10 font-medium">
-              Você gera suas listas oficialmente dentro do Instagram. Nós nunca pedimos acesso direto à sua conta.
-            </p>
-            <div className="flex gap-4 opacity-50">
-              <div className="flex-1 aspect-[9/16] bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                <Smartphone className="w-6 h-6 text-gray-500" />
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {steps.map((step, index) => (
+            <div
+              key={step.title}
+              className="glass border border-white/5 rounded-3xl p-6 sm:p-7 flex flex-col gap-4 hover:border-emerald-400/20 transition-all duration-300"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+                  {step.icon}
+                </div>
+                <div className="text-[12px] font-bold text-emerald-200 uppercase tracking-[0.2em]">
+                  Passo {index + 1}
+                </div>
               </div>
-              <div className="flex-1 aspect-[9/16] bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">
-                <Smartphone className="w-6 h-6 text-gray-500" />
-              </div>
+              <h3 className="text-xl font-bold text-white">{step.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{step.desc}</p>
             </div>
-          </div>
-
-          {/* Step 2 */}
-          <div className="glass p-8 rounded-[2.5rem] relative group hover:bg-white/[0.05] transition-all duration-500">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-600 to-rose-700 flex items-center justify-center font-black text-white text-2xl mb-8 shadow-xl shadow-pink-600/20 group-hover:scale-110 transition-transform">2</div>
-            <h3 className="text-2xl font-bold text-white mb-4">Baixar o ZIP</h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-10 font-medium">
-              O Instagram envia o arquivo compactado para o seu e-mail. Esse arquivo contém as listas de seguidores.
-            </p>
-            <div className="aspect-video bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-pink-500/30 transition-colors">
-              <Download className="w-12 h-12 text-pink-500 animate-bounce" />
-            </div>
-          </div>
-
-          {/* Step 3 */}
-          <div className="glass p-8 rounded-[2.5rem] relative group hover:bg-white/[0.05] transition-all duration-500">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-whatsapp to-green-700 flex items-center justify-center font-black text-white text-2xl mb-8 shadow-xl shadow-whatsapp/20 group-hover:scale-110 transition-transform">3</div>
-            <h3 className="text-2xl font-bold text-white mb-4">Relatório Instantâneo</h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-10 font-medium">
-              Envie o ZIP para a Marcia no WhatsApp e receba quem não te segue de volta em segundos.
-            </p>
-            <div className="bg-whatsapp/10 rounded-2xl p-6 border border-whatsapp/20 flex items-center gap-5">
-              <div className="w-10 h-10 rounded-full bg-whatsapp flex items-center justify-center flex-shrink-0">
-                 <Send className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 space-y-2">
-                <div className="h-2 w-full bg-white/10 rounded-full"></div>
-                <div className="h-2 w-2/3 bg-white/10 rounded-full"></div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

@@ -1,51 +1,56 @@
 
 import React from 'react';
-import { List, Layout, Copy, ShieldOff, Zap, Lock } from 'lucide-react';
+import { Mic, Sparkles, Clock3, ShieldCheck, Activity, CalendarClock } from 'lucide-react';
 
 const Features: React.FC = () => {
   const features = [
     {
-      icon: <List className="w-7 h-7 text-purple-400" />,
-      title: "IA Especializada",
-      desc: "Análise profunda que separa amigos reais de perfis comerciais e inativos."
+      icon: <Mic className="w-7 h-7 text-emerald-300" />,
+      title: 'Registro por voz',
+      desc: 'Só falar o que comeu. A Márcia AI entende sotaques, variações e converte em refeição certinha.',
     },
     {
-      icon: <Layout className="w-7 h-7 text-pink-400" />,
-      title: "Interface WhatsApp",
-      desc: "Nada de instalar apps novos. Receba tudo onde você já passa o dia."
+      icon: <Sparkles className="w-7 h-7 text-emerald-300" />,
+      title: 'Macros instantâneas',
+      desc: 'Calorias, proteínas, carbos e gorduras na hora, sem abrir tabela ou app extra.',
     },
     {
-      icon: <Copy className="w-7 h-7 text-blue-400" />,
-      title: "Ação Rápida",
-      desc: "Copie os arrobas dos fantasmas e faça a limpeza em tempo recorde."
+      icon: <Clock3 className="w-7 h-7 text-emerald-300" />,
+      title: 'Saldo diário em tempo real',
+      desc: 'Acompanhe o que ainda pode comer hoje e receba ajustes rápidos direto no WhatsApp.',
     },
     {
-      icon: <ShieldOff className="w-7 h-7 text-orange-400" />,
-      title: "Segurança Ativa",
-      desc: "Como não logamos na sua conta, o Instagram nunca saberá que você usou o app."
+      icon: <CalendarClock className="w-7 h-7 text-emerald-300" />,
+      title: 'Evolução semanal',
+      desc: 'Resumo automático da sua semana para você e, se quiser, para sua nutri.',
     },
     {
-      icon: <Zap className="w-7 h-7 text-amber-400" />,
-      title: "Velocidade Real",
-      desc: "Processamento em nuvem que entrega resultados em menos de 10 segundos."
+      icon: <Activity className="w-7 h-7 text-emerald-300" />,
+      title: 'Foco em performance',
+      desc: 'Sugestões baseadas no seu objetivo: secar, manter ou ganhar massa com praticidade.',
     },
     {
-      icon: <Lock className="w-7 h-7 text-whatsapp" />,
-      title: "Privacidade Total",
-      desc: "Seus dados de exportação são processados localmente e nunca arquivados."
-    }
+      icon: <ShieldCheck className="w-7 h-7 text-emerald-300" />,
+      title: 'Privacidade total',
+      desc: 'Sem downloads, sem login em apps de terceiros. Tudo fica dentro do seu WhatsApp.',
+    },
   ];
 
   return (
-    <section id="recursos" className="py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {features.map((f, i) => (
-            <div key={i} className="group p-10 rounded-[2.5rem] glass hover:bg-white/[0.06] hover:border-white/20 transition-all duration-500">
-              <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+    <section id="recursos" className="py-20 sm:py-24 px-4 sm:px-6">
+      <div className="max-w-screen-xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="group p-8 sm:p-9 rounded-3xl glass border border-white/5 hover:border-emerald-400/25 hover:-translate-y-1 transition-all duration-400"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mb-7 shadow-inner shadow-emerald-500/10">
                 {f.icon}
               </div>
-              <h3 className="text-xl font-black text-white mb-4 group-hover:text-whatsapp transition-colors">{f.title}</h3>
+              <h3 className="text-xl font-black text-white mb-3 group-hover:text-whatsapp transition-colors">
+                {f.title}
+              </h3>
               <p className="text-gray-400 text-sm leading-relaxed font-medium">{f.desc}</p>
             </div>
           ))}

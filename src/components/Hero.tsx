@@ -1,138 +1,195 @@
 
 import React from 'react';
-import { ArrowRight, ShieldCheck, FileText, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Mic, Play } from 'lucide-react';
 
 const Hero: React.FC = () => {
-  return (
-    <section className="relative pt-32 pb-16 lg:pt-52 lg:pb-32 px-6">
-      {/* Background Orbs */}
-      <div className="absolute top-1/4 -left-20 w-64 h-64 md:w-96 md:h-96 bg-purple-600/10 rounded-full blur-[100px] -z-10 animate-pulse"></div>
-      <div className="absolute bottom-1/4 -right-20 w-80 h-80 md:w-[400px] md:h-[400px] bg-pink-600/5 rounded-full blur-[120px] -z-10 animate-pulse" style={{animationDelay: '2s'}}></div>
+  const quickPoints = [
+    'Registro por áudio',
+    'Sem burocracia',
+    'Nutri 24h por dia',
+  ];
 
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-        
+  return (
+    <section className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6">
+      {/* Background glows */}
+      <div className="absolute -left-24 top-10 w-72 h-72 sm:w-[380px] sm:h-[380px] bg-emerald-500/15 rounded-full blur-[120px] -z-10"></div>
+      <div className="absolute -right-32 bottom-6 w-96 h-96 sm:w-[460px] sm:h-[460px] bg-emerald-400/10 rounded-full blur-[160px] -z-10"></div>
+
+      <div className="max-w-screen-xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr,0.95fr] gap-12 lg:gap-16 items-center">
         {/* Left Column: Text Content */}
-        <div className="relative z-10 text-center lg:text-left flex-1 order-2 lg:order-1">
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] md:text-xs font-bold text-gray-300 mb-6 md:mb-8 tracking-[0.15em] uppercase">
-            <ShieldCheck className="w-4 h-4 text-whatsapp" />
-            Privacidade em Primeiro Lugar
+        <div className="relative z-10 text-center lg:text-left flex flex-col gap-6 order-2 lg:order-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-100 text-[11px] font-semibold self-center lg:self-start shadow-inner shadow-emerald-500/10">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Lista de espera aberta
           </div>
-          
-          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-white mb-6 md:mb-8 leading-[1.1] tracking-tight">
-            Descubra quem não te segue <span className="text-gray-400">em segundos.</span>
+
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.05] tracking-tight">
+            Entre na Lista de Espera
           </h1>
-          
-          <p className="text-base md:text-xl text-gray-400 mb-8 md:mb-12 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-            O Followback usa seus próprios dados exportados para limpar sua lista de forma 100% segura. Sem login, sem senhas, direto no WhatsApp.
+
+          <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            Já no ar e liberando acessos aos poucos: fale com a Márcia AI por
+            áudio, ela entende, registra calorias e macros na hora, mostra saldo
+            diário e evolução semanal — tudo direto no WhatsApp, sem instalar
+            app.
           </p>
-          
-          <div className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start">
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center lg:justify-start">
             <a
               href="#comecar"
-              className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-whatsapp text-white font-extrabold text-lg flex items-center justify-center gap-3 hover:bg-[#20bd5a] transition-all transform hover:-translate-y-1 glow-whatsapp active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-whatsapp text-black font-extrabold text-base sm:text-lg shadow-xl shadow-emerald-500/25 hover:-translate-y-[2px] transition-all active:scale-[0.98]"
             >
-              Começar agora <ArrowRight className="w-5 h-5" />
+              Entrar na Lista de Espera <ArrowRight className="w-5 h-5" />
             </a>
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-3">
-                {[1,2,3].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-[#050505] bg-gray-800 flex items-center justify-center overflow-hidden">
-                     <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i + 10}`} alt="User" />
-                  </div>
-                ))}
-              </div>
-              <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">
-                +10k ativos
-              </p>
-            </div>
+            <span className="text-[11px] uppercase tracking-[0.25em] font-bold text-emerald-100/80">
+              Vagas liberadas semanalmente
+            </span>
           </div>
 
-          <div className="mt-12 md:mt-16 flex items-center justify-center lg:justify-start gap-10 md:gap-16 opacity-40">
-             <div>
-               <span className="text-2xl md:text-3xl font-black text-white block">4.9/5</span>
-               <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400">Avaliações</span>
-             </div>
-             <div className="h-10 w-px bg-white/10"></div>
-             <div>
-               <span className="text-2xl md:text-3xl font-black text-white block">100%</span>
-               <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400">Seguro</span>
-             </div>
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2 border-t border-white/5">
+            {quickPoints.map((item) => (
+              <div
+                key={item}
+                className="flex items-center gap-2 text-sm text-gray-200 bg-white/5 rounded-full px-4 py-2 border border-white/10"
+              >
+                <CheckCircle2 className="w-4 h-4 text-whatsapp" />
+                <span className="font-semibold">{item}</span>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Right Column: Smartphone Mockup */}
-        <div className="relative flex justify-center flex-1 order-1 lg:order-2 w-full max-w-[320px] md:max-w-none">
-          <div className="relative w-full max-w-[310px] h-[580px] md:h-[630px] bg-[#0b0e11] rounded-[45px] border-[8px] md:border-[10px] border-[#1a1c1e] shadow-[0_40px_100px_rgba(0,0,0,0.7)] overflow-hidden float-animation">
-            {/* Notch */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 md:w-32 h-6 md:h-7 bg-[#1a1c1e] rounded-b-3xl z-20"></div>
-            
-            {/* WhatsApp UI Simulation */}
-            <div className="h-full flex flex-col bg-[#0b141a] text-[#e9edef] font-sans">
-              {/* Header */}
-              <div className="bg-[#202c33] p-4 pt-10 md:pt-12 flex items-center gap-3 border-b border-white/5">
-                <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-whatsapp to-green-700 flex items-center justify-center text-white font-bold text-xs md:text-sm shadow-inner">M</div>
-                <div>
-                  <div className="font-bold text-xs md:text-sm">Marcia Followback</div>
-                  <div className="text-[9px] md:text-[10px] text-whatsapp font-bold">online</div>
-                </div>
-              </div>
+        <div className="order-1 lg:order-2 relative flex justify-center">
+          <div className="absolute -inset-10 bg-emerald-500/8 blur-[100px] -z-10"></div>
 
-              {/* Chat Content */}
-              <div className="flex-1 p-3 md:p-4 space-y-4 overflow-y-auto overflow-x-hidden">
-                {/* Bot Message 1 */}
-                <div className="bg-[#202c33] rounded-2xl rounded-tl-none p-3 md:p-3.5 max-w-[85%] relative shadow-sm">
-                  <p className="text-[12px] md:text-[13px] leading-relaxed">
-                    Agora é bem simples: basta me enviar aqui o <strong>arquivo ZIP</strong> que você baixou do Instagram. 📦
-                  </p>
+          <div className="relative w-full max-w-[380px] sm:max-w-[430px] float-animation">
+            <div className="absolute left-1/2 -translate-x-1/2 -top-3 px-3 py-1 rounded-full glass border border-white/10 text-[11px] text-gray-200 shadow-lg">
+              Prévia real no WhatsApp
+            </div>
+
+            <div className="mt-6 rounded-[32px] bg-[#0b1116] border-[9px] border-[#0f1b23] shadow-[0_35px_120px_rgba(0,0,0,0.65)] overflow-hidden">
+              <div className="h-full flex flex-col bg-[#0b141a] text-[#e9edef] font-sans">
+                {/* Header */}
+                <div className="bg-[#111c24] p-4 flex items-center gap-3 border-b border-white/5">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-whatsapp to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-inner">
+                    M
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-bold text-sm">Márcia AI</div>
+                    <div className="text-[10px] text-whatsapp font-bold">
+                      online
+                    </div>
+                  </div>
+                  <div className="flex gap-3 text-gray-500">
+                    <Mic className="w-4 h-4" />
+                    <Play className="w-4 h-4" />
+                  </div>
                 </div>
 
-                {/* User Message (ZIP File) */}
-                <div className="flex justify-end">
-                  <div className="bg-[#005c4b] rounded-2xl rounded-tr-none p-3 md:p-3.5 max-w-[85%] relative border border-white/5">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-black/20 p-2 rounded-xl">
-                        <FileText className="w-5 h-5 md:w-6 md:h-6 text-[#25d366]" />
+                {/* Chat Content */}
+                <div className="flex-1 p-3 sm:p-4 space-y-3 overflow-hidden">
+                  <div className="bg-[#1f2c33] rounded-2xl rounded-tl-none p-3 sm:p-3.5 max-w-[90%] shadow-sm text-[12px] leading-relaxed">
+                    Perfeito, vamos registrar seu almoço! Me conta agora o que
+                    você comeu e em qual data foi (hoje ou outra data, informando
+                    dia/mês/ano).
+                  </div>
+
+                  <div className="bg-[#1f2c33] rounded-2xl rounded-tl-none p-3 sm:p-3.5 max-w-[90%] shadow-sm text-[12px] leading-relaxed">
+                    Beleza, vamos registrar seu almoço de hoje. O que você comeu?
+                    Pode listar os itens e, se quiser, as quantidades (ex: 2
+                    colheres de arroz, 1 filé de frango, salada).
+                  </div>
+
+                  <div className="flex justify-end">
+                    <div className="bg-[#075e54] rounded-2xl rounded-tr-none p-3 sm:p-3.5 max-w-[82%] border border-white/5 shadow-lg space-y-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center">
+                          <Mic className="w-5 h-5 text-emerald-200" />
+                        </div>
+                        <div className="flex-1 h-2 rounded-full bg-emerald-200/30 overflow-hidden">
+                          <div className="h-full w-4/5 bg-emerald-300 rounded-full animate-pulse"></div>
+                        </div>
+                        <span className="text-[10px] text-emerald-50">0:51</span>
                       </div>
-                      <div className="overflow-hidden">
-                        <div className="truncate font-bold text-[11px] md:text-[12px]">insta_dados.zip</div>
-                        <div className="text-[9px] text-gray-300">749 kB • ZIP</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#1f2c33] rounded-2xl rounded-tl-none p-3 sm:p-4 max-w-[95%] shadow-lg border border-white/5 space-y-3">
+                    <div className="flex items-center gap-2 text-[11px] font-semibold text-emerald-200">
+                      <CheckCircle2 className="w-4 h-4" />
+                      Refeição criada com sucesso!
+                    </div>
+
+                    <div className="space-y-2 text-[12px]">
+                      <div className="flex justify-between text-gray-300">
+                        <span className="font-semibold">Almoço</span>
+                        <span className="text-xs text-gray-400">hoje</span>
                       </div>
+                      <div className="grid grid-cols-4 gap-2 text-center text-[11px] font-semibold">
+                        <div className="bg-black/10 rounded-xl py-2">
+                          <div className="text-emerald-300 text-sm font-black">
+                            595
+                          </div>
+                          <p className="text-gray-400 text-[10px] uppercase tracking-wide">
+                            kcal
+                          </p>
+                        </div>
+                        <div className="bg-black/10 rounded-xl py-2">
+                          <div className="text-amber-300 text-sm font-black">
+                            58.3 g
+                          </div>
+                          <p className="text-gray-400 text-[10px] uppercase tracking-wide">
+                            Proteínas
+                          </p>
+                        </div>
+                        <div className="bg-black/10 rounded-xl py-2">
+                          <div className="text-cyan-300 text-sm font-black">
+                            55 g
+                          </div>
+                          <p className="text-gray-400 text-[10px] uppercase tracking-wide">
+                            Carboidratos
+                          </p>
+                        </div>
+                        <div className="bg-black/10 rounded-xl py-2">
+                          <div className="text-orange-300 text-sm font-black">
+                            13.4 g
+                          </div>
+                          <p className="text-gray-400 text-[10px] uppercase tracking-wide">
+                            Gorduras
+                          </p>
+                        </div>
+                      </div>
+                      <div className="space-y-1 text-gray-300 mt-2">
+                        <div className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                          Itens adicionados:
+                        </div>
+                        <ul className="list-disc list-inside space-y-1 text-[11px]">
+                          <li>Arroz branco com brócolis refogado</li>
+                          <li>Peito de frango em cubos ao molho</li>
+                          <li>Salada verde com azeite</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="w-max px-3 py-1 rounded-full bg-black/20 text-[10px] font-semibold text-gray-200 border border-white/10">
+                      Macros instantâneas · 595 kcal · 58 g proteína
                     </div>
                   </div>
                 </div>
 
-                {/* Bot Message (Result) */}
-                <div className="bg-[#202c33] rounded-2xl rounded-tl-none p-3 md:p-4 max-w-[92%] relative shadow-lg border border-white/5">
-                  <p className="font-black text-[10px] md:text-xs mb-3 flex items-center gap-2">📊 Relatório Final ✅</p>
-                  <div className="space-y-2 text-[11px] md:text-[12px]">
-                    <div className="flex justify-between text-gray-400"><span>Seguidores:</span> <span className="text-white font-bold">1.531</span></div>
-                    <div className="flex justify-between text-gray-400"><span>Seguindo:</span> <span className="text-white font-bold">650</span></div>
-                    <div className="pt-2 border-t border-white/10 mt-2 flex justify-between">
-                      <span className="text-whatsapp font-bold">Amigos Reais:</span>
-                      <span className="text-whatsapp font-black">447</span>
-                    </div>
-                    <div className="flex justify-between text-orange-400 font-bold bg-orange-400/5 p-2 rounded-lg mt-1">
-                      <span>Não te seguem:</span>
-                      <span>203</span>
-                    </div>
+                {/* Input Area */}
+                <div className="p-3 sm:p-4 bg-[#111c24] flex items-center gap-3">
+                  <div className="flex-1 bg-[#2a3942] rounded-2xl px-4 py-2 text-gray-500 text-[11px] sm:text-xs">
+                    Diga o que você comeu...
                   </div>
-                </div>
-              </div>
-
-              {/* Input Area */}
-              <div className="p-3 md:p-4 bg-[#202c33] flex items-center gap-3">
-                <div className="flex-1 bg-[#2a3942] rounded-2xl px-4 py-2 text-gray-500 text-[10px] md:text-xs">
-                  Responda SIM...
-                </div>
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-whatsapp flex items-center justify-center shadow-lg">
-                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-whatsapp flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          {/* Subtle glow behind phone */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-purple-500/10 to-pink-500/10 blur-[100px] -z-10"></div>
         </div>
       </div>
     </section>
